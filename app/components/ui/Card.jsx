@@ -1,12 +1,6 @@
 import React from 'react';
 
-interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-  bgColor?: string;
-}
-
-const Card: React.FC<CardProps> = ({ children, className = '', bgColor = 'bg-white' }) => {
+const Card = ({ children, className = '', bgColor = 'bg-white' }) => {
   return (
     <div className={`${bgColor} shadow rounded-lg overflow-hidden ${className}`}>
       {children}
@@ -14,7 +8,7 @@ const Card: React.FC<CardProps> = ({ children, className = '', bgColor = 'bg-whi
   );
 };
 
-export const CardHeader: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardHeader = ({ 
   children, 
   className = '' 
 }) => {
@@ -25,7 +19,7 @@ export const CardHeader: React.FC<{ children: React.ReactNode; className?: strin
   );
 };
 
-export const CardBody: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardBody = ({ 
   children, 
   className = '' 
 }) => {
@@ -36,7 +30,7 @@ export const CardBody: React.FC<{ children: React.ReactNode; className?: string 
   );
 };
 
-export const CardFooter: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+export const CardFooter = ({ 
   children, 
   className = '' 
 }) => {

@@ -1,26 +1,15 @@
 import { 
   useQuery, 
   useMutation, 
-  useQueryClient,
-  UseQueryOptions,
-  UseMutationOptions
+  useQueryClient
 } from '@tanstack/react-query';
 import { 
   notesApi, 
   categoriesApi 
 } from '../services/api';
-import {
-  Note,
-  NoteCreate,
-  NoteUpdate,
-  NoteSearchQuery,
-  Category,
-  CategoryCreate,
-  CategoryUpdate
-} from '../types';
 
 // Note Hooks
-export const useNotes = (skip = 0, limit = 100, options?: UseQueryOptions<Note[]>) => {
+export const useNotes = (skip = 0, limit = 100, options = {}) => {
   return useQuery({
     queryKey: ['notes', skip, limit],
     queryFn: () => notesApi.getNotes(skip, limit),
@@ -28,7 +17,7 @@ export const useNotes = (skip = 0, limit = 100, options?: UseQueryOptions<Note[]
   });
 };
 
-export const useNote = (noteId: string, options?: UseQueryOptions<Note>) => {
+export const useNote = (noteId, options = {}) => {
   return useQuery({
     queryKey: ['note', noteId],
     queryFn: () => notesApi.getNote(noteId),
@@ -37,7 +26,7 @@ export const useNote = (noteId: string, options?: UseQueryOptions<Note>) => {
   });
 };
 
-export const useSearchNotes = (query: NoteSearchQuery, skip = 0, limit = 100, options?: UseQueryOptions<Note[]>) => {
+export const useSearchNotes = (query, skip = 0, limit = 100, options = {}) => {
   return useQuery({
     queryKey: ['notes', 'search', query, skip, limit],
     queryFn: () => notesApi.searchNotes(query, skip, limit),
@@ -46,11 +35,11 @@ export const useSearchNotes = (query: NoteSearchQuery, skip = 0, limit = 100, op
   });
 };
 
-export const useCreateNote = (options?: UseMutationOptions<Note, Error, NoteCreate>) => {
+export const useCreateNote = (options = {}) => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (note: NoteCreate) => notesApi.createNote(note),
+    mutationFn: (note) => notesApi.createNote(note),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
@@ -58,11 +47,11 @@ export const useCreateNote = (options?: UseMutationOptions<Note, Error, NoteCrea
   });
 };
 
-export const useUpdateNote = (noteId: string, options?: UseMutationOptions<Note, Error, NoteUpdate>) => {
+export const useUpdateNote = (noteId, options = {}) => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (note: NoteUpdate) => notesApi.updateNote(noteId, note),
+    mutationFn: (note) => notesApi.updateNote(noteId, note),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       queryClient.invalidateQueries({ queryKey: ['note', noteId] });
@@ -71,11 +60,11 @@ export const useUpdateNote = (noteId: string, options?: UseMutationOptions<Note,
   });
 };
 
-export const useDeleteNote = (options?: UseMutationOptions<Note, Error, string>) => {
+export const useDeleteNote = (options = {}) => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (noteId: string) => notesApi.deleteNote(noteId),
+    mutationFn: (noteId) => notesApi.deleteNote(noteId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
@@ -83,7 +72,7 @@ export const useDeleteNote = (options?: UseMutationOptions<Note, Error, string>)
   });
 };
 
-export const useSuggestCategory = (noteId: string, options?: UseQueryOptions<{ category: string }>) => {
+export const useSuggestCategory = (noteId, options = {}) => {
   return useQuery({
     queryKey: ['note', noteId, 'suggestCategory'],
     queryFn: () => notesApi.suggestCategory(noteId),
@@ -92,7 +81,7 @@ export const useSuggestCategory = (noteId: string, options?: UseQueryOptions<{ c
   });
 };
 
-export const useNoteSentiment = (noteId: string, options?: UseQueryOptions<{ sentiment: string }>) => {
+export const useNoteSentiment = (noteId, options = {}) => {
   return useQuery({
     queryKey: ['note', noteId, 'sentiment'],
     queryFn: () => notesApi.getNoteSentiment(noteId),
@@ -102,10 +91,10 @@ export const useNoteSentiment = (noteId: string, options?: UseQueryOptions<{ sen
 };
 
 export const useSummarizeNote = (
-  noteId: string,
+  noteId,
   maxLength = 150,
   model = 'gpt-4o',
-  options?: UseQueryOptions<{ summary: string }>
+  options = {}
 ) => {
   return useQuery({
     queryKey: ['note', noteId, 'summarize', maxLength, model],
@@ -116,7 +105,7 @@ export const useSummarizeNote = (
 };
 
 // Category Hooks
-export const useCategories = (skip = 0, limit = 100, options?: UseQueryOptions<Category[]>) => {
+export const useCategories = (skip = 0, limit = 100, options = {}) => {
   return useQuery({
     queryKey: ['categories', skip, limit],
     queryFn: () => categoriesApi.getCategories(skip, limit),
@@ -124,7 +113,7 @@ export const useCategories = (skip = 0, limit = 100, options?: UseQueryOptions<C
   });
 };
 
-export const useCategory = (categoryId: string, options?: UseQueryOptions<Category>) => {
+export const useCategory = (categoryId, options = {}) => {
   return useQuery({
     queryKey: ['category', categoryId],
     queryFn: () => categoriesApi.getCategory(categoryId),
@@ -133,11 +122,11 @@ export const useCategory = (categoryId: string, options?: UseQueryOptions<Catego
   });
 };
 
-export const useCreateCategory = (options?: UseMutationOptions<Category, Error, CategoryCreate>) => {
+export const useCreateCategory = (options = {}) => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (category: CategoryCreate) => categoriesApi.createCategory(category),
+    mutationFn: (category) => categoriesApi.createCategory(category),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
@@ -145,11 +134,11 @@ export const useCreateCategory = (options?: UseMutationOptions<Category, Error, 
   });
 };
 
-export const useUpdateCategory = (categoryId: string, options?: UseMutationOptions<Category, Error, CategoryUpdate>) => {
+export const useUpdateCategory = (categoryId, options = {}) => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (category: CategoryUpdate) => categoriesApi.updateCategory(categoryId, category),
+    mutationFn: (category) => categoriesApi.updateCategory(categoryId, category),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       queryClient.invalidateQueries({ queryKey: ['category', categoryId] });
@@ -158,11 +147,11 @@ export const useUpdateCategory = (categoryId: string, options?: UseMutationOptio
   });
 };
 
-export const useDeleteCategory = (options?: UseMutationOptions<Category, Error, string>) => {
+export const useDeleteCategory = (options = {}) => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (categoryId: string) => categoriesApi.deleteCategory(categoryId),
+    mutationFn: (categoryId) => categoriesApi.deleteCategory(categoryId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
     },

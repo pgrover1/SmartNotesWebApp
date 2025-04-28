@@ -1,7 +1,5 @@
-import { Category } from '../types';
-
 // Function to get a consistent color for a category
-export const getCategoryColor = (categoryId: string): string => {
+export const getCategoryColor = (categoryId) => {
   // List of tailwind colors
   const colors = [
     'bg-red-200',
@@ -32,7 +30,7 @@ export const getCategoryColor = (categoryId: string): string => {
 };
 
 // Function to get sentiment color 
-export const getSentimentColor = (sentiment?: string): string => {
+export const getSentimentColor = (sentiment) => {
   if (!sentiment) return 'bg-gray-200';
   
   const sentimentLower = sentiment.toLowerCase();
@@ -46,7 +44,7 @@ export const getSentimentColor = (sentiment?: string): string => {
 };
 
 // Format date
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString) => {
   return new Date(dateString).toLocaleString();
 };
 
@@ -71,7 +69,7 @@ function stringToColor(string) {
   return color;
 }
 
-export const  stringAvatar= (name) =>{
+export const stringAvatar = (name) => {
   return {
     sx: {
       bgcolor: stringToColor(name),

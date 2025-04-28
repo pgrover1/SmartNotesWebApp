@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useCategories } from "../../lib/hooks";
 import { KeyboardArrowRight } from "@mui/icons-material";
-import { NoteCreate, NoteUpdate, Note } from "../../types";
 import {
   Container,
   Typography,
@@ -15,16 +14,7 @@ import {
   FormHelperText
 } from "@mui/material";
 
-interface NoteFormProps {
-  note?: Note;
-  onSubmit: (data: NoteCreate | NoteUpdate) => void;
-  isLoading: boolean;
-  suggestedCategory?: string;
-  suggestedSentiment?: string;
-  summary?: string;
-}
-
-const NoteForm: React.FC<NoteFormProps> = ({
+const NoteForm = ({
   note,
   onSubmit,
   isLoading,
@@ -33,12 +23,12 @@ const NoteForm: React.FC<NoteFormProps> = ({
   summary,
 }) => {
   const { data: categories = [] } = useCategories();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+  const [selectedCategories, setSelectedCategories] = useState(
     note?.category_ids || []
   );
-  const [sentiment, setSentiment] = useState<string>(note?.sentiment || "");
-  const [selectedCategory, setSelectedCategory] = useState<string>(note?.category_ids[0] || "");
-  const [noteSummary, setNoteSummary] = useState<string>(
+  const [sentiment, setSentiment] = useState(note?.sentiment || "");
+  const [selectedCategory, setSelectedCategory] = useState(note?.category_ids?.[0] || "");
+  const [noteSummary, setNoteSummary] = useState(
     note?.summary || summary || ""
   );
 
@@ -48,7 +38,7 @@ const NoteForm: React.FC<NoteFormProps> = ({
     setValue,
     watch,
     formState: { errors },
-  } = useForm<NoteUpdate>({
+  } = useForm({
     defaultValues: {
       title: note?.title || "",
       content: note?.content || "",
@@ -104,7 +94,7 @@ const NoteForm: React.FC<NoteFormProps> = ({
     }
   }, [summary, noteSummary, setValue]);
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (e) => {
     // const selectedOptions = Array.from(
     //   e.target.selectedOptions,
     //   (option) => option.value
@@ -113,12 +103,12 @@ const NoteForm: React.FC<NoteFormProps> = ({
     setValue("category_ids", [e.target.value]);
   };
 
-  const handleSentimentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSentimentChange = (e) => {
     setSentiment(e.target.value);
     setValue("sentiment", e.target.value);
   };
 
-  const handleSummaryChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleSummaryChange = (e) => {
     setNoteSummary(e.target.value);
     setValue("summary", e.target.value);
   };
@@ -166,7 +156,7 @@ const NoteForm: React.FC<NoteFormProps> = ({
 
         {note && (
           <>
-            <FormControl fullWidth                 sx={{ mb: 3 }}            >
+            <FormControl fullWidth sx={{ mb: 3 }}>
               <InputLabel id="category_ids-select-label">Categories</InputLabel>
 
               <Select
@@ -179,7 +169,7 @@ const NoteForm: React.FC<NoteFormProps> = ({
                 className="h-32"
               >
                 {categories.map((cat) => (
-                  <MenuItem value={cat.id}>{cat.name}</MenuItem>
+                  <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>
                 ))}
               </Select>
               <FormHelperText>{`AI Category Suggestion ${suggestedCategory?.category}`}</FormHelperText>

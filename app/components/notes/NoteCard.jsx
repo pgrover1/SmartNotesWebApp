@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Note } from "../../types";
 import {
   getCategoryColor,
   getSentimentColor,
@@ -17,14 +16,7 @@ import {
 } from "@mui/material";
 import Badge from "../ui/Badge";
 
-interface NoteCardProps {
-  note: Note;
-  onEdit: (noteId: string) => void;
-  onDelete: (noteId: string) => void;
-  isDeleting: boolean;
-}
-
-const NoteCard: React.FC<NoteCardProps> = ({
+const NoteCard = ({
   note,
   onEdit,
   onDelete,
@@ -44,6 +36,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
   const cancelDelete = () => {
     setIsConfirmingDelete(false);
   };
+  
   const Subheader = ({ sentiment, categories }) => {
     return (
       <div>

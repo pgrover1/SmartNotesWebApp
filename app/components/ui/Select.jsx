@@ -1,19 +1,12 @@
 import React, { forwardRef } from 'react';
 
-interface Option {
-  value: string;
-  label: string;
-}
+/**
+ * @typedef {Object} Option
+ * @property {string} value
+ * @property {string} label
+ */
 
-interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'multiple'> {
-  label?: string;
-  options: Option[];
-  error?: string;
-  fullWidth?: boolean;
-  multiple?: boolean;
-}
-
-const Select = forwardRef<HTMLSelectElement, SelectProps>(
+const Select = forwardRef(
   ({ label, options, error, fullWidth = false, multiple = false, className = '', ...props }, ref) => {
     const widthClass = fullWidth ? 'w-full' : '';
     const errorClass = error 

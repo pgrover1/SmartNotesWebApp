@@ -6,14 +6,13 @@ import Input from '../ui/Input';
 import Select from '../ui/Select';
 import NoteForm from './NoteForm';
 import NoteList from './NoteList';
-import { NoteCreate, NoteSearchQuery } from '../../types';
 import TextField from '@mui/material/TextField';
 
-const NoteManager: React.FC = () => {
+const NoteManager = () => {
   const [isCreating, setIsCreating] = useState(false);
-  const [searchQuery, setSearchQuery] = useState<NoteSearchQuery>({});
+  const [searchQuery, setSearchQuery] = useState({});
   const [searchInput, setSearchInput] = useState('');
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
   
   const { data: categories = [] } = useCategories();
   
@@ -32,7 +31,7 @@ const NoteManager: React.FC = () => {
   
   const createNote = useCreateNote();
 
-  const handleCreate = (data: NoteCreate) => {
+  const handleCreate = (data) => {
     // When creating a new note, only send title and content
     // Set category_ids to undefined
     const { title, content } = data;
@@ -47,10 +46,10 @@ const NoteManager: React.FC = () => {
     );
   };
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     
-    const newQuery: NoteSearchQuery = {};
+    const newQuery = {};
     
     if (searchInput.trim()) {
       // Check if the search looks like a natural language query

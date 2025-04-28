@@ -13,12 +13,12 @@ export default function CreateNotePage() {
   const router = useRouter();
   const createNote = useCreateNote();
   
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     const formData = new FormData(e.currentTarget);
-    const title = formData.get('title') as string;
-    const content = formData.get('content') as string;
+    const title = formData.get('title');
+    const content = formData.get('content');
     
     if (!title || !content) {
       return;
@@ -41,8 +41,6 @@ export default function CreateNotePage() {
   
   return (
     <Container sx={{py:2}}>
-    
-      
       <CategoryManager/>
     </Container>
   );

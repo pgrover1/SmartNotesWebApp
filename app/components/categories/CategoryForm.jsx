@@ -2,17 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '../ui/Input';
 import TextArea from '../ui/TextArea';
-import { CategoryCreate, CategoryUpdate, Category } from '../../types';
 import { TextField,Button } from '@mui/material';
 import { KeyboardArrowRight } from '@mui/icons-material';
 
-interface CategoryFormProps {
-  category?: Category;
-  onSubmit: (data: CategoryCreate | CategoryUpdate) => void;
-  isLoading: boolean;
-}
-
-const CategoryForm: React.FC<CategoryFormProps> = ({ 
+const CategoryForm = ({ 
   category, 
   onSubmit, 
   isLoading 
@@ -21,7 +14,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     register, 
     handleSubmit, 
     formState: { errors } 
-  } = useForm<CategoryCreate>({
+  } = useForm({
     defaultValues: {
       name: category?.name || '',
       description: category?.description || '',

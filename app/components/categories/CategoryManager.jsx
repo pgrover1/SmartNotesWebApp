@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { useCategories, useCreateCategory } from "../../lib/hooks";
 import CategoryForm from "./CategoryForm";
 import CategoryList from "./CategoryList";
-import { CategoryCreate } from "../../types";
 import { Stack, Typography, Button } from "@mui/material";
 import { AddCircleOutlineOutlined, Clear } from "@mui/icons-material";
 
-const CategoryManager: React.FC = () => {
+const CategoryManager = () => {
   const [isCreating, setIsCreating] = useState(false);
   const { data: categories = [], isLoading } = useCategories();
   const createCategory = useCreateCategory();
 
-  const handleCreate = (data: CategoryCreate) => {
+  const handleCreate = (data) => {
     createCategory.mutate(data, {
       onSuccess: () => setIsCreating(false),
     });

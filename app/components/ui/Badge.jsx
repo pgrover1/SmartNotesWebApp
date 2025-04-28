@@ -1,12 +1,6 @@
 import React from 'react';
 
-interface BadgeProps {
-  children: React.ReactNode;
-  color?: string;
-  className?: string;
-}
-
-const Badge: React.FC<BadgeProps> = ({ 
+const Badge = ({ 
   children, 
   color = 'bg-gray-100',
   className = ''

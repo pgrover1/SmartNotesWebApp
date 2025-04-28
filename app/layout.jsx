@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./lib/providers";
 import * as React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AppBar, Box, Toolbar, Typography, CssBaseline } from "@mui/material";
 import { SideDrawer } from "./components/ui/SideDrawer";
+
 const inter = Inter({ subsets: ["latin"] });
 const theme = createTheme({
   typography: {
@@ -14,10 +14,12 @@ const theme = createTheme({
     fontWeightBold: 700,
   },
 });
-export const metadata: Metadata = {
+
+export const metadata = {
   title: "Smart Notes App",
   description: "A note-taking app with AI features",
 };
+
 function ButtonAppBar({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
@@ -39,11 +41,10 @@ function ButtonAppBar({ children }) {
     </Box>
   );
 }
+
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={inter.className}>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Note, NoteUpdate } from "../../types";
 import { Box, Grid, Stack, Typography, Button, Paper } from "@mui/material";
 import {
   useDeleteNote,
@@ -12,12 +11,8 @@ import NoteCard from "./NoteCard";
 import NoteForm from "./NoteForm";
 import Card, { CardBody, CardHeader } from "../ui/Card";
 
-interface NoteListProps {
-  notes: Note[];
-}
-
-const NoteList: React.FC<NoteListProps> = ({ notes }) => {
-  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+const NoteList = ({ notes }) => {
+  const [editingNoteId, setEditingNoteId] = useState(null);
 
   const deleteNote = useDeleteNote();
   const updateNote = useUpdateNote(editingNoteId || "");
@@ -43,17 +38,17 @@ const NoteList: React.FC<NoteListProps> = ({ notes }) => {
     enabled: !!editingNoteId && !!currentEditingNote,
   });
 
-  const handleEdit = (noteId: string) => {
+  const handleEdit = (noteId) => {
     setEditingNoteId(noteId);
   };
 
-  const handleDelete = (noteId: string) => {
+  const handleDelete = (noteId) => {
     if (confirm("Are you sure you want to delete this note?")) {
       deleteNote.mutate(noteId);
     }
   };
 
-  const handleUpdate = (data: NoteUpdate) => {
+  const handleUpdate = (data) => {
     if (editingNoteId) {
       // Remove summary property from updates to existing notes
       const { summary, ...updateData } = data;

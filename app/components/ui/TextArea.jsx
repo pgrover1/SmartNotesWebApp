@@ -1,12 +1,6 @@
 import React, { forwardRef } from 'react';
 
-interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string;
-  error?: string;
-  fullWidth?: boolean;
-}
-
-const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+const TextArea = forwardRef(
   ({ label, error, fullWidth = false, className = '', ...props }, ref) => {
     const widthClass = fullWidth ? 'w-full' : '';
     const errorClass = error 

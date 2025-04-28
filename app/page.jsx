@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useNotes, useSearchNotes, useCategories } from "./lib/hooks";
 import NoteList from "./components/notes/NoteList";
-import { NoteSearchQuery } from "./types";
 import {
   Container,
   Typography,
@@ -18,9 +17,9 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import { Clear, Search } from "@mui/icons-material";
 
 export default function NotesPage() {
-  const [searchQuery, setSearchQuery] = useState<NoteSearchQuery>({});
+  const [searchQuery, setSearchQuery] = useState({});
   const [searchInput, setSearchInput] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   const { data: categories = [] } = useCategories();
 
@@ -43,10 +42,10 @@ export default function NotesPage() {
     }
   );
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e) => {
     e.preventDefault();
 
-    const newQuery: NoteSearchQuery = {};
+    const newQuery = {};
 
     if (searchInput.trim()) {
       // Check if the search looks like a natural language query

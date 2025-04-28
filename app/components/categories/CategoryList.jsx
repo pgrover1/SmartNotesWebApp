@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Category } from "../../types";
 import { getCategoryColor,stringAvatar } from "../../lib/utils";
 import { useDeleteCategory, useUpdateCategory } from "../../lib/hooks";
 import {
@@ -16,22 +15,14 @@ import CategoryForm from "./CategoryForm";
 import { EditOutlined, DeleteOutline } from "@mui/icons-material";
 import { red } from "@mui/material/colors";
 
-interface CategoryListProps {
-  categories: Category[];
-}
-
-const CategoryList: React.FC<CategoryListProps> = ({categories}) => {
-  const [editingCategoryId, setEditingCategoryId] = useState<string | null>(
-    null
-  );
-  const [deletingCategoryId, setDeletingCategoryId] = useState<string | null>(
-    null
-  );
+const CategoryList = ({categories}) => {
+  const [editingCategoryId, setEditingCategoryId] = useState(null);
+  const [deletingCategoryId, setDeletingCategoryId] = useState(null);
 
   const deleteCategory = useDeleteCategory();
   const updateCategory = useUpdateCategory(editingCategoryId || "");
 
-  const handleDeleteClick = (id: string) => {
+  const handleDeleteClick = (id) => {
     if (deletingCategoryId === id) {
       deleteCategory.mutate(id);
       setDeletingCategoryId(null);
@@ -44,7 +35,7 @@ const CategoryList: React.FC<CategoryListProps> = ({categories}) => {
     setDeletingCategoryId(null);
   };
 
-  const handleUpdate = (data: any) => {
+  const handleUpdate = (data) => {
     if (editingCategoryId) {
       updateCategory.mutate(data, {
         onSuccess: () => setEditingCategoryId(null),
@@ -73,9 +64,8 @@ const CategoryList: React.FC<CategoryListProps> = ({categories}) => {
         const isDeleting = deletingCategoryId === category.id;
         const isEditing = editingCategoryId === category.id;
         return (
-          <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+          <Grid size={{ xs: 2, sm: 4, md: 4 }} key={category.id}>
           <Card
-            key={category.id}
             sx={{
               borderRadius: "20px",
               backgroundColor: "#fafafa",
@@ -109,8 +99,7 @@ const CategoryList: React.FC<CategoryListProps> = ({categories}) => {
                 </>
               }
               title={category.name}
-              subheader={                  `${category.notes_count || 0} notes`
-            }
+              subheader={`${category.notes_count || 0} notes`}
             />
 
             {isEditing ? (

@@ -12,18 +12,19 @@ import { useCreateNote, useCategories } from '../../lib/hooks';
 export default function CreateNotePage() {
   const router = useRouter();
   const createNote = useCreateNote();
-  const [categoryId, setCategoryId]= useState()
+  const [categoryId, setCategoryId] = useState();
   const { data: categories = [] } = useCategories();
-const handleCategoryChange= (e: { target: { value: React.SetStateAction<undefined>; }; }) => {
-  setCategoryId(e.target.value);
+  
+  const handleCategoryChange = (e) => {
+    setCategoryId(e.target.value);
   };
  
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     const formData = new FormData(e.currentTarget);
-    const title = formData.get('title') as string;
-    const content = formData.get('content') as string;
+    const title = formData.get('title');
+    const content = formData.get('content');
     
     if (!title || !content) {
       return;
@@ -105,7 +106,7 @@ const handleCategoryChange= (e: { target: { value: React.SetStateAction<undefine
                 onChange={handleCategoryChange}
               >
                 {categories.map((cat) => (
-                  <MenuItem value={cat.id}>{cat.name}</MenuItem>
+                  <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -116,15 +117,13 @@ const handleCategoryChange= (e: { target: { value: React.SetStateAction<undefine
               After creating your note, you'll be able to add categories and see AI-generated summary and sentiment analysis.
             </Typography>
           
-          <Stack direction="row" spacing={2}               sx={{mt:3}}
-          >
+          <Stack direction="row" spacing={2} sx={{mt:3}}>
           <Link href="/">
               <Button type="button" variant="outlined">
                 Discard
               </Button>
             </Link>
-            <Button type="submit" variant="contained" disabled={createNote.isPending}           endIcon={<KeyboardArrowRight />}
-            >
+            <Button type="submit" variant="contained" disabled={createNote.isPending} endIcon={<KeyboardArrowRight />}>
               {createNote.isPending ? 'Creating...' : 'Create Note'}
             </Button>
           </Stack>
