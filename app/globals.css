@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Gradient Title */
+.title-gradient {
+  background: linear-gradient(to right, #2563eb, #3b82f6);
+  -webkit-background-clip: text;
+  color: transparent;
+  background-clip: text;
+}
+
+/* Navigation Tabs */
+.nav-tab {
+  flex-grow: 1;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.nav-tab-active {
+  background-color: white;
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+.nav-tab-inactive {
+  color: #6b7280;
+}
+
+.nav-tab-inactive:hover {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+/* Base Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+/* Layout */
+.container {
+  width: 80%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* Accessibility */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+button svg {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
