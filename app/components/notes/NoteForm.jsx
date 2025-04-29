@@ -23,14 +23,26 @@ const NoteForm = ({
   summary,
 }) => {
   const { data: categories = [] } = useCategories();
+  
+  // Initialize the state with the first category from the note's categories if available
+  const initialCategoryId = note?.category_ids?.length > 0 ? note.category_ids[0] : "";
+  
   const [selectedCategories, setSelectedCategories] = useState(
     note?.category_ids || []
   );
   const [sentiment, setSentiment] = useState(note?.sentiment || "");
-  const [selectedCategory, setSelectedCategory] = useState(note?.category_ids?.[0] || "");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategoryId);
   const [noteSummary, setNoteSummary] = useState(
     note?.summary || summary || ""
   );
+
+  // For debugging
+  useEffect(() => {
+    if (note) {
+      console.log("Note categories:", note.category_ids);
+      console.log("Selected category:", selectedCategory);
+    }
+  }, [note, selectedCategory]);
 
   const {
     register,
@@ -57,7 +69,7 @@ const NoteForm = ({
     if (suggestedCategory && categories.length > 0 && note) {
       // Find the category by name (case insensitive)
       const suggestedCategoryObj = categories.find(
-        (cat) => cat.name.toLowerCase() === suggestedCategory.category.toLowerCase()
+        (cat) => cat.name.toLowerCase() === suggestedCategory.category?.toLowerCase()
       );
 
       // If we found a matching category and it's not already selected
@@ -95,12 +107,9 @@ const NoteForm = ({
   }, [summary, noteSummary, setValue]);
 
   const handleCategoryChange = (e) => {
-    // const selectedOptions = Array.from(
-    //   e.target.selectedOptions,
-    //   (option) => option.value
-    // );
-    setSelectedCategory(e.target.value);
-    setValue("category_ids", [e.target.value]);
+    const categoryId = e.target.value;
+    setSelectedCategory(categoryId);
+    setValue("category_ids", [categoryId]);
   };
 
   const handleSentimentChange = (e) => {
@@ -172,7 +181,7 @@ const NoteForm = ({
                   <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>
                 ))}
               </Select>
-              <FormHelperText>{`AI Category Suggestion ${suggestedCategory?.category}`}</FormHelperText>
+              <FormHelperText>{`AI Category Suggestion: ${suggestedCategory?.category || 'None'}`}</FormHelperText>
               </FormControl>
             {/* <FormControl fullWidth>
               
