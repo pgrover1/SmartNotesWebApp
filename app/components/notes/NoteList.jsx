@@ -43,9 +43,8 @@ const NoteList = ({ notes }) => {
   };
 
   const handleDelete = (noteId) => {
-    if (confirm("Are you sure you want to delete this note?")) {
-      deleteNote.mutate(noteId);
-    }
+    // Direct delete without confirmation - the confirmation already happened in NoteCard
+    deleteNote.mutate(noteId);
   };
 
   const handleUpdate = (data) => {
@@ -132,7 +131,7 @@ const NoteList = ({ notes }) => {
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         {notes.map((note) => (
-          <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+          <Grid size={{ xs: 2, sm: 4, md: 4 }} key={note.id}>
             <NoteCard
               key={note.id}
               note={note}

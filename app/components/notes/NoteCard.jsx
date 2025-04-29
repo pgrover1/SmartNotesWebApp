@@ -5,14 +5,15 @@ import {
   formatDate,
   stringAvatar,
 } from "../../lib/utils";
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { DeleteOutline, EditOutlined, Done, Close } from "@mui/icons-material";
 import {
   Card,
   CardContent,
   CardHeader,
   IconButton,
   Typography,
-  Avatar
+  Avatar,
+  Tooltip
 } from "@mui/material";
 import Badge from "../ui/Badge";
 
@@ -25,12 +26,12 @@ const NoteCard = ({
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const handleDeleteClick = () => {
-    if (isConfirmingDelete) {
-      onDelete(note.id);
-      setIsConfirmingDelete(false);
-    } else {
-      setIsConfirmingDelete(true);
-    }
+    setIsConfirmingDelete(true);
+  };
+
+  const confirmDelete = () => {
+    onDelete(note.id);
+    setIsConfirmingDelete(false);
   };
 
   const cancelDelete = () => {
@@ -76,21 +77,44 @@ const NoteCard = ({
         <Avatar {...stringAvatar(note.title)} aria-label="note-avatar"/>
       }
         action={
-          <>
-            <IconButton
-              sx={{ color: "#E99D9D" }}
-              onClick={() => onEdit(note.id)}
-            >
-              <EditOutlined />
-            </IconButton>
+          isConfirmingDelete ? (
+            // Show confirmation buttons when deleting
+            <>
+              <Tooltip title="Confirm delete">
+                <IconButton 
+                  sx={{ color: "green" }}
+                  onClick={confirmDelete}
+                >
+                  <Done />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Cancel">
+                <IconButton 
+                  sx={{ color: "gray" }}
+                  onClick={cancelDelete}
+                >
+                  <Close />
+                </IconButton>
+              </Tooltip>
+            </>
+          ) : (
+            // Show normal buttons otherwise
+            <>
+              <IconButton
+                sx={{ color: "#E99D9D" }}
+                onClick={() => onEdit(note.id)}
+              >
+                <EditOutlined />
+              </IconButton>
 
-            <IconButton
-              sx={{ color: "#E99D9D" }}
-              onClick={() => handleDeleteClick()}
-            >
-              <DeleteOutline />
-            </IconButton>
-          </>
+              <IconButton
+                sx={{ color: "#E99D9D" }}
+                onClick={handleDeleteClick}
+              >
+                <DeleteOutline />
+              </IconButton>
+            </>
+          )
         }
         title={note.title}
         subheader={

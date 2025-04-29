@@ -8,11 +8,12 @@ import {
   Avatar,
   IconButton,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import Button from "../ui/Button";
 import Badge from "../ui/Badge";
 import CategoryForm from "./CategoryForm";
-import { EditOutlined, DeleteOutline } from "@mui/icons-material";
+import { EditOutlined, DeleteOutline, Done, Close } from "@mui/icons-material";
 import { red } from "@mui/material/colors";
 
 const CategoryList = ({categories}) => {
@@ -23,12 +24,14 @@ const CategoryList = ({categories}) => {
   const updateCategory = useUpdateCategory(editingCategoryId || "");
 
   const handleDeleteClick = (id) => {
-    if (deletingCategoryId === id) {
-      deleteCategory.mutate(id);
-      setDeletingCategoryId(null);
-    } else {
-      setDeletingCategoryId(id);
-    }
+    // Set the category as the one being deleted
+    setDeletingCategoryId(id);
+  };
+
+  const confirmDelete = (id) => {
+    // Actually perform the deletion
+    deleteCategory.mutate(id);
+    setDeletingCategoryId(null);
   };
 
   const cancelDelete = () => {
@@ -59,7 +62,7 @@ const CategoryList = ({categories}) => {
     columns={{ xs: 4, sm: 8, md: 12 }}
     py={4}
   >
-          {categories.map((category) => {
+      {categories.map((category) => {
         const colorClass = getCategoryColor(category.id);
         const isDeleting = deletingCategoryId === category.id;
         const isEditing = editingCategoryId === category.id;
@@ -80,23 +83,46 @@ const CategoryList = ({categories}) => {
                 <Avatar {...stringAvatar(category.name)} aria-label="category-avatar"/>
               }
               action={
-                <>
-                  <IconButton
-                    sx={{ color: "#E99D9D" }}
-                    onClick={() => setEditingCategoryId(category.id)}
-                    disabled={isDeleting}
-                  >
-                    <EditOutlined />
-                  </IconButton>
+                isDeleting ? (
+                  // Show confirmation buttons when deleting
+                  <>
+                    <Tooltip title="Confirm delete">
+                      <IconButton 
+                        sx={{ color: "green" }}
+                        onClick={() => confirmDelete(category.id)}
+                      >
+                        <Done />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Cancel">
+                      <IconButton 
+                        sx={{ color: "gray" }}
+                        onClick={cancelDelete}
+                      >
+                        <Close />
+                      </IconButton>
+                    </Tooltip>
+                  </>
+                ) : (
+                  // Show normal buttons otherwise
+                  <>
+                    <IconButton
+                      sx={{ color: "#E99D9D" }}
+                      onClick={() => setEditingCategoryId(category.id)}
+                      disabled={isDeleting}
+                    >
+                      <EditOutlined />
+                    </IconButton>
 
-                  <IconButton
-                    sx={{ color: "#E99D9D" }}
-                    onClick={() => handleDeleteClick(category.id)}
-                    disabled={isEditing}
-                  >
-                    <DeleteOutline />
-                  </IconButton>
-                </>
+                    <IconButton
+                      sx={{ color: "#E99D9D" }}
+                      onClick={() => handleDeleteClick(category.id)}
+                      disabled={isEditing}
+                    >
+                      <DeleteOutline />
+                    </IconButton>
+                  </>
+                )
               }
               title={category.name}
               subheader={`${category.notes_count || 0} notes`}
